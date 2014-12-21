@@ -11,17 +11,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141221143839) do
+ActiveRecord::Schema.define(version: 20141223034623) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "users", force: :cascade do |t|
-    t.string   "first"
-    t.string   "last"
+  create_table "charges", force: :cascade do |t|
+    t.integer  "user_id"
     t.json     "payload"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
+  add_index "charges", ["user_id"], name: "index_charges_on_user_id", using: :btree
+
+  create_table "dynamics", force: :cascade do |t|
+    t.json     "payload"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string   "first"
+    t.string   "last"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_foreign_key "charges", "users"
 end
